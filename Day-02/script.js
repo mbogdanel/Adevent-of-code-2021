@@ -18,7 +18,7 @@ fs.readFile('./input.txt', (err, data) => {
       case 'up':
         depth -= parseInt(arrayInput[i + 1])
         break
-      default:
+      case 'down':
         depth += parseInt(arrayInput[i + 1])
     }
   }
@@ -34,7 +34,7 @@ fs.readFile('./input.txt', (err, data) => {
       case 'up':
         aim -= parseInt(arrayInput[i + 1])
         break
-      default:
+      case 'forward':
         horizontal2 += parseInt(arrayInput[i + 1])
         depth2 += aim * parseInt(arrayInput[i + 1])
     }
