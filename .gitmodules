@@ -1,0 +1,3 @@
+[submodule "Marius"]
+	path = Marius
+	url = https://github.com/mbogdanel/Adevent-of-code-2021
