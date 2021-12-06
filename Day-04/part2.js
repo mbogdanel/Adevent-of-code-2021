@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-fs.readFile('./test.txt', (err, data) => {
+fs.readFile('./input.txt', (err, data) => {
   console.time('adventOfCodeDay4')
   if (err) {
     console.log('ewrrororrrr')
@@ -25,12 +25,24 @@ fs.readFile('./test.txt', (err, data) => {
     }
   })
 
+  let checkIfWinningLine = (array) => {
+    let acc = 0
+    for (i = 0; i < array.length; i++) {
+      if (array[i] === '#') {
+        acc++
+      }
+    }
+    if (acc === array.length) {
+      return true
+    } else return false
+  }
+
   let winningBoards = []
   let bingoNumbers = []
   let indexes = []
 
   for (let winNumber = 0; winNumber < winNumbers.length; winNumber++) {
-    for (let board = 0; board < boards.length; board++) {
+    for (let board = boards.length - 1; board >= 0; board--) {
       for (let line = 0; line < boards[board].length; line++) {
         for (let number = 0; number < 5; number++) {
           if (boards[board][line][number] === winNumbers[winNumber]) {
@@ -39,35 +51,27 @@ fs.readFile('./test.txt', (err, data) => {
             for (let k = 0; k < 5; k++) {
               winningColumn.push(boards[board][k][number])
             }
+            let winningLine = boards[board][line]
             if (
-              boards[board][line].every((val) => val === '#') ||
-              winningColumn.every((val) => val === '#')
+              checkIfWinningLine(winningLine) ||
+              checkIfWinningLine(winningColumn)
             ) {
-              if (!bingoNumbers.includes(winNumbers[winNumber])) {
-                bingoNumbers.push(winNumbers[winNumber])
-              }
+              bingoNumbers.push(winNumbers[winNumber])
               winningBoards.push(boards[board])
-
               indexes.push(board)
             }
           }
         }
       }
     }
-    if (indexes) {
-      indexes.forEach((index) => {
-        boards.splice(index, 1)
-      })
-    }
+    indexes.forEach((index) => {
+      boards.splice(index, 1)
+    })
     indexes = []
   }
 
   let lastWinningNumber = bingoNumbers[bingoNumbers.length - 1]
   let lastWinningboard = winningBoards[winningBoards.length - 1]
-
-  // console.log(bingoNumbers)
-  // console.log(lastWinningboard)
-  // console.log(lastWinningNumber)
 
   let sumRemainingNumbers = 0
   for (let i = 0; i < 5; i++) {
