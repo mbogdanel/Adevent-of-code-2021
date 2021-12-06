@@ -27,12 +27,9 @@ fs.readFile('./test.txt', (err, data) => {
 
   let winningBoards = []
   let bingoNumbers = []
-  let tempIndex = null
-  let winNumber = 0
-  let winner = false
+  let indexes = []
 
-  do {
-    winner = false
+  for (let winNumber = 0; winNumber < winNumbers.length; winNumber++) {
     for (let board = 0; board < boards.length; board++) {
       for (let line = 0; line < boards[board].length; line++) {
         for (let number = 0; number < 5; number++) {
@@ -46,30 +43,31 @@ fs.readFile('./test.txt', (err, data) => {
               boards[board][line].every((val) => val === '#') ||
               winningColumn.every((val) => val === '#')
             ) {
-              winner = true
               if (!bingoNumbers.includes(winNumbers[winNumber])) {
                 bingoNumbers.push(winNumbers[winNumber])
               }
-
               winningBoards.push(boards[board])
 
-              tempIndex = board
+              indexes.push(board)
             }
           }
         }
       }
     }
-    if (winner) {
-      boards.splice(tempIndex, 1)
+    if (indexes) {
+      indexes.forEach((index) => {
+        boards.splice(index, 1)
+      })
     }
-    winNumber++
-  } while (boards.length > 0)
+    indexes = []
+  }
 
   let lastWinningNumber = bingoNumbers[bingoNumbers.length - 1]
   let lastWinningboard = winningBoards[winningBoards.length - 1]
 
-  console.log(bingoNumbers)
-  console.log(lastWinningboard)
+  // console.log(bingoNumbers)
+  // console.log(lastWinningboard)
+  // console.log(lastWinningNumber)
 
   let sumRemainingNumbers = 0
   for (let i = 0; i < 5; i++) {
