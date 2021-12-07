@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-fs.readFile('./inputTest.txt', (err, data) => {
+fs.readFile('./input.txt', (err, data) => {
   console.time('adventOfCodeDay')
   if (err) {
     console.log('ewrrororrrr')
