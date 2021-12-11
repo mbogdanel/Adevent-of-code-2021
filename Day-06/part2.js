@@ -19,17 +19,22 @@ fs.readFile('./inputTest.txt', (err, data) => {
     lanternfishObject[val]++
   })
 
-  console.log(lanternfishObject)
+  // console.log(lanternfishObject)
 
   for (i = 1; i <= 3; i++) {
     for (let key in lanternfishObject) {
-      if (key === '0') {
-        lanternfishObject['0']--
-        lanternfishObject['6']++
-        lanternfishObject['8']++
-      } else {
-        lanternfishObject[key]--
-        lanternfishObject[parseInt(key) - 1]++
+      if (key === '0' && lanternfishObject['0'] !== null) {
+        lanternfishObject['0'] = lanternfishObject['0'] - 1
+        lanternfishObject['6'] = lanternfishObject['6'] + 1
+        lanternfishObject['8'] = lanternfishObject['8'] + 1
+      } else if (
+        key !== '0' &&
+        lanternfishObject[key] !== null &&
+        lanternfishObject[key] !== 0
+      ) {
+        lanternfishObject[key] = lanternfishObject[key] - 1
+        lanternfishObject[`${parseInt(key) - 1}`] =
+          lanternfishObject[`${parseInt(key) - 1}`] + 100
       }
     }
     console.log(lanternfishObject)
