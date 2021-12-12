@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-fs.readFile('./inputTest.txt', (err, data) => {
+fs.readFile('./input.txt', (err, data) => {
   console.time('adventOfCodeDay')
   if (err) {
     console.log('ewrrororrrr')
@@ -10,41 +10,39 @@ fs.readFile('./inputTest.txt', (err, data) => {
 
   let lanternfish = arrayInput.map((val) => parseInt(val))
 
-  let lanternfishObject = {}
-  for (k = 0; k <= 8; k++) {
-    lanternfishObject[k] = null
-  }
+  let lanternfishCount = new Array(9).fill(0)
 
-  lanternfish.forEach((val) => {
-    lanternfishObject[val]++
+  lanternfish.forEach((fish) => {
+    lanternfishCount[fish]++
   })
 
-  // console.log(lanternfishObject)
+  let tempArray = new Array(9).fill(0)
+  // console.log(lanternfishCount)
 
-  for (i = 1; i <= 3; i++) {
-    for (let key in lanternfishObject) {
-      if (key === '0' && lanternfishObject['0'] !== null) {
-        lanternfishObject['0'] = lanternfishObject['0'] - 1
-        lanternfishObject['6'] = lanternfishObject['6'] + 1
-        lanternfishObject['8'] = lanternfishObject['8'] + 1
-      } else if (
-        key !== '0' &&
-        lanternfishObject[key] !== null &&
-        lanternfishObject[key] !== 0
-      ) {
-        lanternfishObject[key] = lanternfishObject[key] - 1
-        lanternfishObject[`${parseInt(key) - 1}`] =
-          lanternfishObject[`${parseInt(key) - 1}`] + 100
-      }
+  for (i = 1; i <= 256; i++) {
+    for (j = 1; j < lanternfishCount.length; j++) {
+      // if (j === 0) {
+      //   tempArray[8] += lanternfishCount[0]
+      //   tempArray[6] += lanternfishCount[0]
+      //   // tempArray[0] = 0
+      // } else {
+      tempArray[j - 1] += lanternfishCount[j]
+      tempArray[j] = 0
     }
-    console.log(lanternfishObject)
-    console.log('#-------------------------------------')
+    tempArray[8] += lanternfishCount[0]
+    tempArray[6] += lanternfishCount[0]
+    lanternfishCount = tempArray
+    tempArray = new Array(9).fill(0)
   }
-  //   let numberOfFish = 0
-  //   for (value of lanternfishObject) {
-  //     numberOfFish += value
-  //   }
-  //   console.log(numberOfFish)
+
+  console.log(lanternfishCount)
+
+  const sum = lanternfishCount.reduce(add, 0) // with initial value to avoid when the array is empty
+
+  function add(accumulator, a) {
+    return accumulator + a
+  }
+  console.log(sum)
 
   console.timeEnd('adventOfCodeDay')
 })
